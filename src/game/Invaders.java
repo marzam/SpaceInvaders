@@ -33,6 +33,7 @@ public class Invaders extends Stage implements KeyListener {
 	private Player player;		
 	public long usedTime;//time taken per game step	
 	public BufferStrategy strategy;	 //double buffering strategy
+	private int []columns;
 	
 	//private BufferedImage background, backgroundTile; //background cache
 	//private int backgroundY; //background cache position
@@ -89,6 +90,7 @@ public class Invaders extends Stage implements KeyListener {
 				inv.setX(j*space + (inv.getWidth()));
 				inv.setY((i*space) + (2*inv.getHeight()));
 				inv.setVx(10);
+				inv.setColumn(j);
 				//set movement boundaries for each invader
 				inv.setLeftWall(j*space);
 				inv.setRightWall(Stage.WIDTH - (space * (Stage.COL - j)) );
@@ -127,6 +129,11 @@ public class Invaders extends Stage implements KeyListener {
 		actors = new ArrayList<Actor>();
 		gameOver = false;
 		gameWon = false;
+		
+		columns = new int[Stage.COL];
+		for (int i = 0; i < Stage.COL; i++)
+			columns[i] = 0;
+		
 		//add a player
 		player = new Player(this);
 		player.setX(Stage.WIDTH/2 - player.getWidth()/2);
@@ -159,6 +166,14 @@ public class Invaders extends Stage implements KeyListener {
 		//paint the actors
 		for (int i = 0; i < actors.size(); i++) {
 			Actor actor = actors.get(i);
+			
+			
+			if (actor.getWhoAmI() == "Invader"){
+				Invader inv = (Invader) actor;
+				inv.setInvisible((columns[inv.getColumn()] > 0));
+				
+			}
+			
 			actor.paint(g);
 		}
 
@@ -254,6 +269,23 @@ public class Invaders extends Stage implements KeyListener {
 		
 		//checkCollision(player);
 		player.act();
+		
+		for (int k = 0; k < Stage.COL; k++){
+			if (columns[k] > 0)
+				columns[k]--;
+			
+		}
+			
+	}
+	
+	public void setColumns(int c){
+		if ((c < 0) || (c >= Stage.COL)){
+			System.err.println("ERROR: " + Integer.toString(c) + " is out of limits");
+			System.exit(ERROR);
+			
+		}
+		
+		this.columns[c] = Stage.INVISIBLETIME;
 	}
 	
 	private void checkCollision(Actor actor) {
@@ -345,4 +377,6 @@ public class Invaders extends Stage implements KeyListener {
 		Invaders inv = new Invaders();
 		inv.game();
 	}
+	
+
 }

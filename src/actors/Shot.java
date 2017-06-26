@@ -10,7 +10,7 @@ public class Shot extends Actor {
 	
 	
 	public Shot(Stage stage) {
-		super(stage);
+		super(stage, "Shot");
 		width = 10;
 		height = 15;
 		sprites = new String[]{"shot1.gif","shot2.gif"};

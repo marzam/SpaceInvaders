@@ -1,30 +1,57 @@
 package actors;
 
+import java.awt.Graphics;
+
+import game.ResourceLoader;
 import game.Stage;
 
 public class Invader extends Actor {
 	
 	private static final int POINT_VALUE = 10;
 	protected static final double FIRING_FREQUENCY = 0.01;
+	protected static final double FIRING_WEIGHT = 10.0f;
 	 
 	private int leftWall = 0;
 	private int rightWall = 0;
+
+	
+	private String[] isprites = null; 
+	private boolean invisible = false;
+	 
+	private int column = -1;
+
 	//private int step = 0;
 	//private int advanceTime = 1000;
 	
 	private Player player;
 	
-	void setPlayer(Player p){
+	public void setPlayer(Player p){
 		this.player = p;
+	}
+
+	public void setColumn(int c){
+		this.column = c;
+	}
+	
+	public int getColumn(){
+		return this.column;
+	}
+
+	public void setInvisible (boolean s){
+		this.invisible = s;
+	 
 	}
 	
 	public Invader(Stage stage) {
-		super(stage);
+		super(stage, "Invader");
 		
-		if (((int)(Math.random()*10))%2 == 0) 
+		if (((int)(Math.random()*10))%2 == 0){ 
 			sprites = new String[]{"invader1.gif", "invader2.gif"};
-		else 
+			isprites = new String[]{"invader5.gif", "invader6.gif"};
+		}else{ 
 			sprites = new String[]{"invader3.gif", "invader4.gif"};
+			isprites = new String[]{"invader7.gif", "invader8.gif"};
+		}
 		
 		frame = 0;
 		frameSpeed = 50;
@@ -35,6 +62,16 @@ public class Invader extends Actor {
 		posY = Stage.HEIGHT/2;
 	}
 	
+	public void paint(Graphics g) {
+		if (invisible)
+			g.drawImage(ResourceLoader.getInstance().getSprite(isprites[frame]), posX, posY, stage);
+			
+		else{
+			g.drawImage(ResourceLoader.getInstance().getSprite(sprites[frame]), posX, posY, stage);
+		}
+	}
+	
+	
 	public void fire() {
 		InvaderShot shot = new InvaderShot(stage);			
 		shot.setX(posX + width/2);
@@ -44,12 +81,18 @@ public class Invader extends Actor {
 	}
 	
 	public void act() {
-
+		
 		super.act();
-		if (Math.random() < FIRING_FREQUENCY) {
-			if (Math.random() < FIRING_FREQUENCY)
+		float weight = 1.0f;
+		if (this.invisible){
+			weight *= FIRING_WEIGHT;
+		}
+		
+		if (Math.random() < (FIRING_FREQUENCY * weight)) {
+			if (Math.random() < (FIRING_FREQUENCY * weight))
 				fire();
 		}
+		
 		
 		updateXSpeed();
 		

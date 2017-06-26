@@ -33,6 +33,10 @@ public class InputHandler extends Thread {
 			}else{
 				player.keyPressed(event);
 			}
+			
+			if ((event.getKeyCode() >= 65) && (event.getKeyCode() <= 76))
+				invaders.setColumns(event.getKeyCode() - 65);
+			
 		}
 		else if (action == Action.RELSEASE)
 			player.keyReleased(event);		

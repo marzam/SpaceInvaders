@@ -9,7 +9,7 @@ public class Player extends Actor {
 	private int score = 0;
 	
 	public Player(Stage stage) {
-		super(stage);
+		super(stage, "Player");
 
 		sprites = new String[]{"player.gif"};
 		frame = 0;

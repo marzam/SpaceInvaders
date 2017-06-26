@@ -25,15 +25,23 @@ public class Actor {
 	protected String[] sprites = null; 
 	protected Stage stage = null;
 
-	public Actor(Stage canvas) {
+	protected String WhoAIm = "";
+	
+	public Actor(Stage canvas, String who) {
 		this.stage = canvas;
 		frame = 0;
 		frameSpeed = 1;
 		actorSpeed = 10;
 		time = 0;
+		this.WhoAIm = who;
 		
 	 
 	}
+	
+	
+    public String getWhoAmI() {return WhoAIm; }
+	
+	
 	
 	public void act() {
 		updateFrame();
@@ -56,8 +64,9 @@ public class Actor {
 	}
 
 			
-	public void paint(Graphics g) {		
-		g.drawImage(ResourceLoader.getInstance().getSprite(sprites[frame]), posX, posY, stage);
+	public void paint(Graphics g) {
+			g.drawImage(ResourceLoader.getInstance().getSprite(sprites[frame]), posX, posY, stage);
+	
 	}
 	
 	
