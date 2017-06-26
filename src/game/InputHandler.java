@@ -28,10 +28,11 @@ public class InputHandler extends Thread {
 					invaders.initWorld();
 					invaders.game();
 				}
-			}
-				
-			else
+			}else if (KeyEvent.VK_ESCAPE == event.getKeyCode()){
+				System.exit(0);
+			}else{
 				player.keyPressed(event);
+			}
 		}
 		else if (action == Action.RELSEASE)
 			player.keyReleased(event);		

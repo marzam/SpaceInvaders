@@ -12,8 +12,6 @@ public class Actor {
 	protected int vx; 
 	protected int vy;
 	
-	protected int dX;
-	protected int dY;
 	
 	protected int posX;
 	protected int posY;
@@ -34,8 +32,7 @@ public class Actor {
 		actorSpeed = 10;
 		time = 0;
 		
-		dX = 0;
-		dY = 0;
+	 
 	}
 	
 	public void act() {
@@ -64,10 +61,7 @@ public class Actor {
 	}
 	
 	
-	public void setDeltas(int dx, int dy){
-		this.dX = dx;
-		this.dY = dy;
-	}
+ 
 	
 	public void setX(int posX) {
 		this.posX = posX;

@@ -9,8 +9,8 @@ public class Invader extends Actor {
 	 
 	private int leftWall = 0;
 	private int rightWall = 0;
-	private int step = 0;
-	private int advanceTime = 1000;
+	//private int step = 0;
+	//private int advanceTime = 1000;
 	
 	private Player player;
 	
@@ -39,7 +39,7 @@ public class Invader extends Actor {
 		InvaderShot shot = new InvaderShot(stage);			
 		shot.setX(posX + width/2);
 		shot.setY(posY + shot.getHeight());
-		shot.setDeltas(player.posX, player.posY);
+		 
 		stage.actors.add(shot);
 	}
 	
@@ -52,7 +52,7 @@ public class Invader extends Actor {
 		}
 		
 		updateXSpeed();
-		updateYSpeed();
+		
 	}
 		
 	public void setLeftWall(int leftWall) {
@@ -66,16 +66,17 @@ public class Invader extends Actor {
 	private void updateXSpeed() {
 		if (time % actorSpeed == 0) {
 			posX += getVx();
-			if (posX < leftWall || posX > rightWall) setVx(-getVx());
+			if (posX <= leftWall || posX >= rightWall){
+				updateYSpeed();
+				setVx(-getVx());
+			}
 		}
 	}
 	
 	private void updateYSpeed() {
-		step++;
-		if (step == advanceTime) {
-			posY += height;
-			step = 0;
-		}	
+		posY += (height / 2);
+			 
+		 
 
 		if (posY == stage.getHeight()) 
 			stage.endGame();

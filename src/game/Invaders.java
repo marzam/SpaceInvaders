@@ -34,8 +34,8 @@ public class Invaders extends Stage implements KeyListener {
 	public long usedTime;//time taken per game step	
 	public BufferStrategy strategy;	 //double buffering strategy
 	
-	private BufferedImage background, backgroundTile; //background cache
-	private int backgroundY; //background cache position
+	//private BufferedImage background, backgroundTile; //background cache
+	//private int backgroundY; //background cache position
 	
 	public Invaders() {
 		//init the UI
@@ -78,6 +78,27 @@ public class Invaders extends Stage implements KeyListener {
 	 * add a grid of invaders based on the screen size
 	 */
 	public void addInvaders() {
+		 
+		int space = Stage.SPRITESIZE + (Stage.SPRITESIZE / 2);
+		 
+		//dy -= (Stage.ROW);
+		
+		for (int i = 0; i < Stage.ROW; i++){
+			for (int j = 0; j < Stage.COL; j++){
+				Invader inv = new Invader(this);
+				inv.setX(j*space + (inv.getWidth()));
+				inv.setY((i*space) + (2*inv.getHeight()));
+				inv.setVx(10);
+				//set movement boundaries for each invader
+				inv.setLeftWall(j*space);
+				inv.setRightWall(Stage.WIDTH - (space * (Stage.COL - j)) );
+				actors.add(inv);
+			}	
+		}
+		
+		
+		
+		/*
 		Invader invader = new Invader(this);
 		//padding between units/rows
 		int xPad = invader.getWidth() + 15;
@@ -99,6 +120,7 @@ public class Invaders extends Stage implements KeyListener {
 				actors.add(inv);
 			}
 		}
+		*/
 	}
 	
 	public void initWorld() {
@@ -112,14 +134,14 @@ public class Invaders extends Stage implements KeyListener {
 		player.setVx(10);				
 				
 		//load cached background
-		backgroundTile = ResourceLoader.getInstance().getSprite("space.gif");
-		background = ResourceLoader.createCompatible(
-		                    WIDTH, HEIGHT+ backgroundTile.getHeight(),
-		                    Transparency.OPAQUE);
-		Graphics2D g = (Graphics2D)background.getGraphics();
-		g.setPaint( new TexturePaint( backgroundTile,new Rectangle(0,0,backgroundTile.getWidth(),backgroundTile.getHeight())));
-		g.fillRect(0,0,background.getWidth(),background.getHeight());
-		backgroundY = backgroundTile.getHeight();
+		//backgroundTile = ResourceLoader.getInstance().getSprite("space.gif");
+		//background = ResourceLoader.createCompatible(
+		  //                  WIDTH, HEIGHT+ backgroundTile.getHeight(),
+		    //                Transparency.OPAQUE);
+		//Graphics2D g = (Graphics2D)background.getGraphics();
+		//g.setPaint( new TexturePaint( backgroundTile,new Rectangle(0,0,backgroundTile.getWidth(),backgroundTile.getHeight())));
+		//g.fillRect(0,0,background.getWidth(),background.getHeight());
+	//	backgroundY = backgroundTile.getHeight();
 		
 		addInvaders();
 	}
@@ -132,7 +154,7 @@ public class Invaders extends Stage implements KeyListener {
 		g.setColor(getBackground());
 		g.fillRect(0, 0, getWidth(), getHeight());
 		//load subimage from the background
-		g.drawImage( background,0,0,Stage.WIDTH,Stage.HEIGHT,0,backgroundY,Stage.WIDTH,backgroundY+Stage.HEIGHT,this);
+		//g.drawImage( background,0,0,Stage.WIDTH,Stage.HEIGHT,0,backgroundY,Stage.WIDTH,backgroundY+Stage.HEIGHT,this);
 
 		//paint the actors
 		for (int i = 0; i < actors.size(); i++) {
@@ -211,8 +233,8 @@ public class Invaders extends Stage implements KeyListener {
 		int numInvaders = 0;
 		while (i < actors.size()) {
 			Actor actor = actors.get(i);
-			if (actor instanceof Shot)
-				checkCollision(actor);
+			//if (actor instanceof Shot)
+				//checkCollision(actor);
 			
 			if (actor.isMarkedForRemoval()) {
 				player.updateScore(actor.getPointValue());
@@ -230,7 +252,7 @@ public class Invaders extends Stage implements KeyListener {
 		if (numInvaders == 0)
 			super.gameWon = true;
 		
-		checkCollision(player);
+		//checkCollision(player);
 		player.act();
 	}
 	
@@ -262,9 +284,9 @@ public class Invaders extends Stage implements KeyListener {
 		while(isVisible()) {
 			long startTime = System.currentTimeMillis();
 			
-			backgroundY--;
-			if (backgroundY < 0)
-				backgroundY = backgroundTile.getHeight();
+			//backgroundY--;
+			//if (backgroundY < 0)
+			//	backgroundY = backgroundTile.getHeight();
 
 			if (super.gameOver) { 
 				paintGameOver();
